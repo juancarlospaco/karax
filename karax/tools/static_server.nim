@@ -5,7 +5,7 @@ from cgi import decodeUrl
 import ws,tables,times
 import dotenv
 
-type 
+type
   RawHeaders* = seq[tuple[key, val: string]]
 
 proc toStr(headers: Option[RawHeaders]): string =
@@ -33,7 +33,7 @@ proc sendStaticIfExists(
   result = Http200
   let mimes = newMimetypes()
   for p in paths:
-    if existsFile(p):
+    if fileExists(p):
 
       var fp = getFilePermissions(p)
       if not fp.contains(fpOthersRead):
@@ -81,7 +81,7 @@ proc sendStaticIfExists(
             break
         file.close()
 
-      return 
+      return
 
   # If we get to here then no match could be found.
   return Http404
@@ -97,7 +97,7 @@ proc handleFileRequest(
   if not publicUrl.endsWith("/"):
     publicUrl = publicUrl & "/"
   reqPath = reqPath.substr(publicUrl.len)
-  
+
   let path = normalizedPath(
     staticDir / reqPath
   )
@@ -107,7 +107,7 @@ proc handleFileRequest(
   let pathDir = path.splitFile.dir / ""
 
   if pathDir.startsWith(publicUrl):
-    if existsDir(path):
+    if dirExists(path):
       status = await sendStaticIfExists(
         req,
         @[path / "index.html", path / "index.htm"]
@@ -135,7 +135,7 @@ proc handleWs(req: Request) {.async.} =
       changed = false
 
 
-proc serveStatic*() = 
+proc serveStatic*() =
   if fileExists( "static.env" ):
     var env:DotEnv
     env = initDotEnv(getCurrentDir(), "static.env")
@@ -145,7 +145,7 @@ proc serveStatic*() =
     staticDir="./src/assets/"
     publicUrl="public"
     """)
-  
+
   var server = newAsyncHttpServer()
   proc cb(req: Request) {.gcsafe, async.} =
     if req.url.path == "/ws":
