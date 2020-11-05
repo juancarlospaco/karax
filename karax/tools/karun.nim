@@ -52,11 +52,11 @@ ws.onclose = function(evt) {
 const helpMsg = """karun options file.nim
 
 options:
-  --run           Compile and run the Nim file on the web browser.
+  -r / --run      Compile and run the Nim file on the web browser.
   -w              Watch for changes on the Nim file.
   --css:file.css  Use "file.css" for stylesheet.
-  --css:bulma     Use Bulma CSS for stylesheet.
-  --css:spectre   Use Spectre CSS for stylesheet.
+  --css:bulma     Use Bulma CSS for stylesheet https://bulma.io
+  --css:spectre   Use Spectre CSS for stylesheet https://picturepan2.github.io/spectre
   --help          Show this help and quit.
 """
 
